@@ -6,77 +6,105 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Just a Little Bit</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Style Sheets -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P"
+        crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/main.css" />
-    <script src="assets/javascript/main.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
     <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-4">Just a Lil' Bit</h1>
-            <p class="lead">Just a Lil' Bit helps the user to identify the market in which BitCoin is the cheapest.</p>
+        <div class="container" id="header">
+            <h1 class="display-4">
+                Just a Lil' Bit</h1>
         </div>
     </div>
-    <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text"> <div class="dropdown show">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Currency
-                        </a>
-                      
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                          <a class="dropdown-item" href="#">Dollar</a>
-                          <a class="dropdown-item" href="#">Euro</a>
-                          <a class="dropdown-item" href="#">Yin</a>
-                        </div>
-                    </div></span>
-            </div>
-            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-            <div class="input-group-append">
-                <span class="input-group-text">.00</span>
-            </div>
-        </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Market</th>
-                <th scope="col">Market Cap</th>
-                <th scope="col">Price</th>
-                <th scope="col">Available Quantity</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row"></th>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row"></th>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row"></th>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row"></th>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-        </table>
+    <div class="input-group mb-3" id="currency-changer">
+        <div class="input-group-prepend">
+            <span class="input-group-text">
+                <div class="dropdown show">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-dollar-sign"></i> USD
+                    </a>
 
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="#">¥ JPY</a>
+                        <a class="dropdown-item" href="#">€ EUR</a>
+                        <a class="dropdown-item" href="#">¥ CNY</a>
+                    </div>
+                </div>
+            </span>
+        </div>
+        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+        <div class="input-group-append">
+            <span class="input-group-text">.00</span>
+        </div>
+    </div>
+    <div id="pricing-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Market
+                        <i class="fas fa-caret-down"></i>
+                    </th>
+                    <th scope="col">Market Cap
+                        <i class="fas fa-caret-down"></i>
+                    </th>
+                    <th scope="col">Price
+                        <i class="fas fa-caret-down"></i>
+                    </th>
+                    <th scope="col">Available Quantity
+                        <i class="fas fa-caret-down"></i>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Coinbase</td>
+                    <td>$150,232,693,985</td>
+                    <td>$8,873.75</td>
+                    <td>16,930,012 BTC</td>
+                </tr>
+                <tr>
+                    <td>Bitfinex</td>
+                    <td>$32,232,322</td>
+                    <td>$8,545.95</td>
+                    <td>1,233,322 BTC</td>
+                </tr>
+                <tr>
+                    <td>Bitmex</td>
+                    <td>$32,232,322</td>
+                    <td>$8,545.95</td>
+                    <td>1,233,322 BTC</td>
+                </tr>
+                <tr>
+                    <td>cex.io</td>
+                    <td>$3,232,322</td>
+                    <td>$9,545.95</td>
+                    <td>223,232 BTC</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="footer">Copyright 2018</div>
+
+
+
+    <!-- Javascript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="assets/javascript/main.js"></script>
 </body>
 
 </html>
