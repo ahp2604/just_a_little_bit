@@ -53,27 +53,15 @@ var transformData = function(data) {
 var displayData = function(dataUnpacked) {
   var maxTableSize = 30;
   var length = $("table tr").length;
-  $("#trades").html(
-    "<tr class=" +
-      dataUnpacked.Type +
-      "><th>" +
+  $("#row-test").html(
+    "<td>" +
       dataUnpacked.Market +
-      "</th><th>" +
-      dataUnpacked.Type +
-      "</th><th>" +
-      dataUnpacked.ID +
-      "</th><th>" +
-      dataUnpacked.Price +
-      "</th><th>" +
-      dataUnpacked.Quantity +
-      "</th><th>" +
+      "</td><td>" +
       dataUnpacked.Total +
-      "</th></tr>"
+      "</td><td>" +
+      dataUnpacked.Price +
+      "</td><td>Delete me</td>"
   );
-
-  if (length >= maxTableSize) {
-    $("table tr:last").remove();
-  }
 };
 
 $("#unsubscribe").click(function() {
