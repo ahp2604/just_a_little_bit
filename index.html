@@ -29,7 +29,12 @@
     <div class="input-group mb-3" id="currency-changer">
         <div class="input-group-prepend">
             <span class="input-group-text">
-                <div class="dropdown show">
+                <div class="dropdown">
+            <!-- $(".dropdown-menu li a").click(function(){
+            $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+            $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+            }); -->
+
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-dollar-sign"></i> USD
                     </a>
@@ -45,12 +50,15 @@
         <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
         <div class="input-group-append">
             <span class="input-group-text">.00</span>
+        <!-- Enter Function -->
+
         </div>
     </div>
     <div id="pricing-table">
         <table class="table">
             <thead>
                 <tr>
+            <!-- Sort Function -->
                     <th scope="col">Market
                         <i class="fas fa-caret-down"></i>
                     </th>
@@ -60,7 +68,7 @@
                     <th scope="col">Price
                         <i class="fas fa-caret-down"></i>
                     </th>
-                    <th scope="col">Available Quantity
+                    <th scope="col">Available Amount
                         <i class="fas fa-caret-down"></i>
                     </th>
                 </tr>
