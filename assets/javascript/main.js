@@ -1,3 +1,5 @@
+var exchanges = ["Coinbase"];
+
 // Code to extract price from streamer
 var streamUrl = "https://streamer.cryptocompare.com/";
 var fsym = "BTC";
@@ -53,16 +55,15 @@ var transformData = function(data) {
 var displayData = function(dataUnpacked) {
   var maxTableSize = 30;
   var length = $("table tr").length;
-  $("#row-test").html(
-    "<td>" +
-      //   dataUnpacked.Market +
-      "Coinbase" +
-      "</td><td>" +
-      dataUnpacked.Total +
-      "</td><td>" +
-      dataUnpacked.Price +
-      "</td><td>Delete me</td>"
-  );
+  if (dataUnpacked.Market === exchanges[0]) {
+    $("#row-test").html(
+      "<td>" +
+        dataUnpacked.Market +
+        "</td><td>" +
+        dataUnpacked.Price +
+        "</td><td>Delete me</td>"
+    );
+  }
 };
 
 $("#unsubscribe").click(function() {
