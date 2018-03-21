@@ -1,4 +1,3 @@
-// Code to extract price from streamer
 var streamUrl = "https://streamer.cryptocompare.com/";
 var fsym = "BTC";
 var tsym = "USD";
