@@ -55,7 +55,8 @@ var displayData = function(dataUnpacked) {
   var length = $("table tr").length;
   $("#row-test").html(
     "<td>" +
-      dataUnpacked.Market +
+      //   dataUnpacked.Market +
+      "Coinbase" +
       "</td><td>" +
       dataUnpacked.Total +
       "</td><td>" +
