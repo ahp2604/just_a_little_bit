@@ -52,35 +52,43 @@ var transformData = function(data) {
   var coinfsym = CCC.STATIC.CURRENCY.getSymbol(fsym);
   var cointsym = CCC.STATIC.CURRENCY.getSymbol(tsym);
   var incomingTrade = CCC.TRADE.unpack(data);
-  // console.log(incomingTrade);
+   console.log(incomingTrade);
+  
+
   var newTrade = {
     Market: incomingTrade["M"],
     Type: incomingTrade["T"],
     ID: incomingTrade["ID"],
+    Flag: incomingTrade["F"],  //Added Property F to bring in Flag to identify Buy or Sell
     Price: CCC.convertValueToDisplay(cointsym, incomingTrade["P"]),
     Quantity: CCC.convertValueToDisplay(coinfsym, incomingTrade["Q"]),
     Total: CCC.convertValueToDisplay(cointsym, incomingTrade["TOTAL"])
   };
 
-  if (incomingTrade["F"] & 1) {
-    newTrade["Type"] = "SELL";
-  } else if (incomingTrade["F"] & 2) {
-    newTrade["Type"] = "BUY";
-  } else {
-    newTrade["Type"] = "UNKNOWN";
-  }
+  // if (incomingTrade["F"] & 1) {
+  //   newTrade["Type"] = "SELL";
+  // } else if (incomingTrade["F"] & 2) {
+  //   newTrade["Type"] = "BUY";
+  // } else {
+  //   newTrade["Type"] = "UNKNOWN";
+  // }
 
   displayData(newTrade);
 };
-
+//Added in filter F & 2 to only capture Buying Transaction
 var displayData = function(dataUnpacked) {
   for (var i = 0; i < exchanges.length; i++) {
-    if (exchanges[i] === dataUnpacked.Market) {
+    if ((exchanges[i] === dataUnpacked.Market) && (dataUnpacked.Flag & 2)) {
       $("#price-" + exchanges[i]).html(dataUnpacked.Price);
 
       //   console.log(
       //     "Market = " + dataUnpacked.Market + "  price = " + dataUnpacked.Price
       //   );
+
+    //If F & 4 is passing then show Unknown Transaction
+    //Cexio Market is showing a unsuall low-price for buying. Verified F:2 is true
+    }else if ((exchanges[i] === dataUnpacked.Market) && (dataUnpacked.Flag & 4)){
+      $("#price-" + exchanges[i]).html("Unknown Transaction");
     }
   }
   // $("#row-test").html(
