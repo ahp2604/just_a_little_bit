@@ -1,6 +1,8 @@
 #tableHeader {
     background-color: rgb(253, 180, 44);
     text-align: center;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .table {
@@ -22,14 +24,17 @@
 }
 
 body {
-    background-color: rgb(231, 231, 231);
+    background-color: rgb(211, 211, 211);
+    font-family: 'Playfair Display SC', serif;
 }
 
 .table {
     background-color: white;
+    text-align: center;
 }
 
 #footer {
     background-color: grey;
     text-align: center;
+    height: 10%;
 }
