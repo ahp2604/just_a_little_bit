@@ -1,4 +1,5 @@
 var exchanges = [];
+var priceArray = [];
 
 function generateTable(exchangeNames) {
   for (var i = 0; i < exchangeNames.length; i++) {
@@ -59,10 +60,11 @@ var transformData = function(data) {
     Market: incomingTrade["M"],
     Type: incomingTrade["T"],
     ID: incomingTrade["ID"],
+    TimeUnix: incomingTrade["TS"],
     Flag: incomingTrade["F"],  //Added Property F to bring in Flag to identify Buy or Sell
     Price: CCC.convertValueToDisplay(cointsym, incomingTrade["P"]),
     Quantity: CCC.convertValueToDisplay(coinfsym, incomingTrade["Q"]),
-    Total: CCC.convertValueToDisplay(cointsym, incomingTrade["TOTAL"])
+    Total: CCC.convertValueToDisplay(cointsym, incomingTrade["TOTAL"]),
   };
 
   // if (incomingTrade["F"] & 1) {
@@ -77,9 +79,35 @@ var transformData = function(data) {
 };
 //Added in filter F & 2 to only capture Buying Transaction
 var displayData = function(dataUnpacked) {
+
+//test to convert time
+var start = moment.utc().startOf('day').format; 
+console.log(start);
+
+var time = parseInt(dataUnpacked.TimeUnix);    //string
+console.log(time);
+
+//test to convert string price to number price
+  var high = (dataUnpacked.Price).split("$");
+  console.log(high);
+  var highInt = parseFloat((high[1]).replace("$", "").replace(",", ""));
+  console.log(typeof(highInt)); //give a number
+  priceArray.push(highInt);
+  console.log(priceArray);
+///////////////////////////////////////////////////////////////////////////////////////////
+
   for (var i = 0; i < exchanges.length; i++) {
-    if ((exchanges[i] === dataUnpacked.Market) && (dataUnpacked.Flag & 2)) {
+    if ((exchanges[i] === dataUnpacked.Market) && (dataUnpacked.Flag & 1)) {
       $("#price-" + exchanges[i]).html(dataUnpacked.Price);
+
+    //test to showing the high and low
+      // if(dataUnpacked.Price = high){
+      // pricePopulate.html(dataUnpacked.Price);
+      //   pricePopulate.css("background-color","blue")
+      // }else if(dataUnpacked.Price = low){
+      //   pricePopulate.css("background-color","red")
+      // }
+      
 
       //   console.log(
       //     "Market = " + dataUnpacked.Market + "  price = " + dataUnpacked.Price
@@ -87,10 +115,12 @@ var displayData = function(dataUnpacked) {
 
     //If F & 4 is passing then show Unknown Transaction
     //Cexio Market is showing a unsuall low-price for buying. Verified F:2 is true
-    }else if ((exchanges[i] === dataUnpacked.Market) && (dataUnpacked.Flag & 4)){
-      $("#price-" + exchanges[i]).html("Unknown Transaction");
-    }
+    }//else if ((exchanges[i] === dataUnpacked.Market) && (dataUnpacked.Flag === )){
+      //$("#price-" + exchanges[i]).html("Unknown Transaction");
+    //}
   }
+
+
   // $("#row-test").html(
   //   "<td>" +
   //     dataUnpacked.Market +
@@ -100,20 +130,3 @@ var displayData = function(dataUnpacked) {
   // );
 };
 
-$("#unsubscribe").click(function() {
-  console.log("Unsubscribing to streamers");
-  $("#subscribe").removeClass("subon");
-  $(this).addClass("subon");
-  $("#stream-text").text("Stream stopped");
-  socket.emit("SubRemove", { subs: currentSubs });
-  $("#sub-exchanges").text("");
-});
-
-$("#subscribe").click(function() {
-  console.log("Subscribing to streamers");
-  $("#unsubscribe").removeClass("subon");
-  $(this).addClass("subon");
-  $("#stream-text").text("Streaming...");
-  socket.emit("SubAdd", { subs: currentSubs });
-  $("#sub-exchanges").text(currentSubsText);
-});
