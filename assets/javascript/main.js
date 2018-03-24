@@ -1,11 +1,29 @@
 var exchanges = [];
 var priceArray = [];
+var test = [];
+var userInput;
+var exchangeRates;
+var base = "USD";
+var currentCurrency = "USD";
+var currentRate = 1;
+var converted = false;
+var oldRate;
+
+var streamUrl = "https://streamer.cryptocompare.com/";
+var fsym = "BTC";
+var tsym = "USD";
+var currentSubs;
+var currentSubsText = "";
+var dataUrl =
+  "https://min-api.cryptocompare.com/data/subs?fsym=" + fsym + "&tsyms=" + tsym;
+var socket = io(streamUrl);
 
 function generateTable(exchangeNames) {
   for (var i = 0; i < exchangeNames.length; i++) {
     parsedNames = exchangeNames[i].split("~");
-    console.log(parsedNames);
+
     exchanges.push(parsedNames[1]);
+    test.push(parsedNames[0]);
     $("#bit-table").after(
       "<tr><td id='market-" +
         parsedNames[1] +
@@ -18,22 +36,14 @@ function generateTable(exchangeNames) {
         "'>--</td></tr>"
     );
   }
-  console.log(exchanges);
+  // console.log(test);
 }
 
 // Code to extract price from streamer
-var streamUrl = "https://streamer.cryptocompare.com/";
-var fsym = "BTC";
-var tsym = "USD";
-var currentSubs;
-var currentSubsText = "";
-var dataUrl =
-  "https://min-api.cryptocompare.com/data/subs?fsym=" + fsym + "&tsyms=" + tsym;
-var socket = io(streamUrl);
 
 $.getJSON(dataUrl, function(data) {
   currentSubs = data["USD"]["TRADES"];
-  console.log(currentSubs);
+  // console.log(currentSubs);
   generateTable(currentSubs);
   for (var i = 0; i < currentSubs.length; i++) {
     currentSubsText += currentSubs[i] + ", ";
@@ -54,6 +64,7 @@ var transformData = function(data) {
   var cointsym = CCC.STATIC.CURRENCY.getSymbol(tsym);
   var incomingTrade = CCC.TRADE.unpack(data);
   console.log(incomingTrade);
+  // console.log(incomingTrade);
 
   var newTrade = {
     Market: incomingTrade["M"],
@@ -65,14 +76,6 @@ var transformData = function(data) {
     Quantity: CCC.convertValueToDisplay(coinfsym, incomingTrade["Q"]),
     Total: CCC.convertValueToDisplay(cointsym, incomingTrade["TOTAL"])
   };
-
-  // if (incomingTrade["F"] & 1) {
-  //   newTrade["Type"] = "SELL";
-  // } else if (incomingTrade["F"] & 2) {
-  //   newTrade["Type"] = "BUY";
-  // } else {
-  //   newTrade["Type"] = "UNKNOWN";
-  // }
 
   displayData(newTrade);
 };
@@ -92,11 +95,45 @@ var displayData = function(dataUnpacked) {
   console.log(typeof highInt); //give a number
   priceArray.push(highInt);
   console.log(priceArray);
+  // console.log(start);
+
+  var time = parseInt(dataUnpacked.TimeUnix); //string
+  // console.log(time);
+
+  //test to convert string price to number price
+  var high = dataUnpacked.Price.split("$");
+  // console.log(high);
+  var highInt = parseFloat(high[1].replace("$", "").replace(",", ""));
+  // console.log(typeof highInt); //give a number
+  priceArray.push(highInt);
+  // console.log(priceArray);
   ///////////////////////////////////////////////////////////////////////////////////////////
 
   for (var i = 0; i < exchanges.length; i++) {
     if (exchanges[i] === dataUnpacked.Market && dataUnpacked.Flag & 1) {
       $("#price-" + exchanges[i]).html(dataUnpacked.Price);
+      test[i] = dataUnpacked.Price;
+      // console.log(test);
+      var priceParsed =
+        parseFloat(dataUnpacked.Price.replace("$", "").replace(",", "")) *
+        currentRate;
+      console.log("Current rate is presently: " + currentRate);
+
+      $("#price-" + exchanges[i]).html(priceParsed);
+      var userSpend = parseFloat($("input").val());
+
+      purchaseAmount = userSpend / priceParsed;
+
+      // console.log(purchaseAmount);
+      $("#available-" + exchanges[i]).html(purchaseAmount);
+
+      //test to showing the high and low
+      // if(dataUnpacked.Price = high){
+      // pricePopulate.html(dataUnpacked.Price);
+      //   pricePopulate.css("background-color","blue")
+      // }else if(dataUnpacked.Price = low){
+      //   pricePopulate.css("background-color","red")
+      // }
 
       //test to showing the high and low
       // if(dataUnpacked.Price = high){
@@ -125,3 +162,88 @@ var displayData = function(dataUnpacked) {
   //     "</td><td>Delete me</td>"
   // );
 };
+
+$("button").click(function() {
+  for (i = 0; i < exchanges.length; i++) {
+    var price = parseFloat(
+      $("#price-" + exchanges[i])
+        .text()
+        .replace("$", "")
+        .replace(",", "")
+    );
+    userInput = parseFloat($("input").val());
+    purchasePower = userInput / price;
+    console.log(purchasePower);
+    $("#available-" + exchanges[i]).html(purchasePower);
+  }
+});
+$(".currency-selector").change(function() {
+  currentCurrency = $(".currency-selector option:selected").text();
+  if (!exchangeRates) {
+    $.ajax({
+      type: "GET",
+      url:
+        "https://api.fixer.io/latest?access_key=d779d9b842fb5cbb18a0c9967bf65c8b&base=USD&symbols=JPY,CNY,EUR,GBP,CAD,AUD",
+      data: {},
+      success: function(result) {
+        exchangeRates = result.rates;
+        changeCurrency();
+      },
+      error: function(x, e) {
+        console.log(e);
+      }
+    });
+  } else {
+    changeCurrency();
+  }
+});
+function changeCurrency() {
+  if (currentCurrency === "USD") {
+    oldRate = currentRate;
+    currentRate = 1;
+    console.log(currentRate);
+    updateTable("available");
+  } else {
+    oldRate = currentRate;
+    currentRate = exchangeRates[currentCurrency];
+    console.log(currentRate);
+    updateTable("available");
+  }
+}
+
+function updateTable(selector) {
+  if (oldRate) {
+    for (i = 0; i < exchanges.length; i++) {
+      var oldDivisor = 1 / oldRate;
+      console.log(oldDivisor);
+      var price =
+        parseFloat(
+          $("#price-" + exchanges[i])
+            .text()
+            .replace("$", "")
+            .replace(",", "")
+        ) * oldDivisor;
+      price = price * currentRate;
+      userInput = parseFloat($("input").val());
+      purchasePower = userInput / price;
+      // console.log(price);
+      $("#price-" + exchanges[i]).html(price);
+      $("#available-" + exchanges[i]).html(purchasePower);
+    }
+  } else {
+    for (i = 0; i < exchanges.length; i++) {
+      var price =
+        parseFloat(
+          $("#price-" + exchanges[i])
+            .text()
+            .replace("$", "")
+            .replace(",", "")
+        ) * currentRate;
+      userInput = parseFloat($("input").val());
+      purchasePower = userInput / price;
+      // console.log(price);
+      $("#price-" + exchanges[i]).html(price);
+      $("#available-" + exchanges[i]).html(purchasePower);
+    }
+  }
+}
