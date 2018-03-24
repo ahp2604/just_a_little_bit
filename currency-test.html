@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <select class="currency-selector" name="currencies">
+            <option value="cny">JPY</option>
+            <option value="usd" selected="selected">USD</option>
+            <option value="jpy">CNY</option>
+            <option value="gbp">EUR</option>
+            <option value="gbp">GBP</option>
+            <option value="gbp">CAD</option>
+            <option value="gbp">EUR</option>
+
+        </select>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script>
+        var exchangeRates;
+        var base = "USD";
+        var currentCurrency = "USD";
+        var currentRate;
+        $(".currency-selector").change(function () {
+            currentCurrency = $(".currency-selector option:selected").text();
+            if (!exchangeRates) {
+                $.ajax({
+                    type: "GET",
+                    url: "https://api.fixer.io/latest?access_key=d779d9b842fb5cbb18a0c9967bf65c8b&base=USD&symbols=JPY,CNY,EUR,GBP,CAD,AUD",
+                    data: {},
+                    success: function (result) {
+                        exchangeRates = result.rates;
+                        changeCurrency();
+                    },
+                    error: function (x, e) { console.log(e); }
+                });
+            } else {
+                changeCurrency();
+            }
+
+        });
+        function changeCurrency() {
+            if (currentCurrency === "USD") {
+                currentRate = 1;
+                console.log(currentRate);
+            } else {
+                currentRate = exchangeRates[currentCurrency];
+                console.log(currentRate);
+            }
+        }
+    </script>
+</body>
+
+
+</html>
