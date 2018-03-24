@@ -63,6 +63,7 @@ var transformData = function(data) {
   var coinfsym = CCC.STATIC.CURRENCY.getSymbol(fsym);
   var cointsym = CCC.STATIC.CURRENCY.getSymbol(tsym);
   var incomingTrade = CCC.TRADE.unpack(data);
+  console.log(incomingTrade);
   // console.log(incomingTrade);
 
   var newTrade = {
@@ -82,6 +83,18 @@ var transformData = function(data) {
 var displayData = function(dataUnpacked) {
   //test to convert time
   var start = moment.utc().startOf("day").format;
+  console.log(start);
+
+  var time = parseInt(dataUnpacked.TimeUnix); //string
+  console.log(time);
+
+  //test to convert string price to number price
+  var high = dataUnpacked.Price.split("$");
+  console.log(high);
+  var highInt = parseFloat(high[1].replace("$", "").replace(",", ""));
+  console.log(typeof highInt); //give a number
+  priceArray.push(highInt);
+  console.log(priceArray);
   // console.log(start);
 
   var time = parseInt(dataUnpacked.TimeUnix); //string
@@ -98,12 +111,14 @@ var displayData = function(dataUnpacked) {
 
   for (var i = 0; i < exchanges.length; i++) {
     if (exchanges[i] === dataUnpacked.Market && dataUnpacked.Flag & 1) {
+      $("#price-" + exchanges[i]).html(dataUnpacked.Price);
       test[i] = dataUnpacked.Price;
       // console.log(test);
       var priceParsed =
         parseFloat(dataUnpacked.Price.replace("$", "").replace(",", "")) *
         currentRate;
       console.log("Current rate is presently: " + currentRate);
+
 
       $("#price-" + exchanges[i]).html(priceParsed.toFixed(2));
       var userSpend = parseFloat($("input").val());
@@ -112,6 +127,14 @@ var displayData = function(dataUnpacked) {
 
       // console.log(purchaseAmount);
       $("#available-" + exchanges[i]).html(purchaseAmount);
+
+      //test to showing the high and low
+      // if(dataUnpacked.Price = high){
+      // pricePopulate.html(dataUnpacked.Price);
+      //   pricePopulate.css("background-color","blue")
+      // }else if(dataUnpacked.Price = low){
+      //   pricePopulate.css("background-color","red")
+      // }
 
       //test to showing the high and low
       // if(dataUnpacked.Price = high){
@@ -205,6 +228,7 @@ function updateTable(selector) {
       userInput = parseFloat($("input").val());
       purchasePower = userInput / price;
       // console.log(price);
+
       $("#price-" + exchanges[i]).html(price.toFixed(2));
       $("#available-" + exchanges[i]).html(purchasePower);
     }
@@ -220,6 +244,7 @@ function updateTable(selector) {
       userInput = parseFloat($("input").val());
       purchasePower = userInput / price;
       // console.log(price);
+
       $("#price-" + exchanges[i]).html(price.toFixed(2));
       $("#available-" + exchanges[i]).html(purchasePower);
     }

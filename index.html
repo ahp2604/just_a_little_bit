@@ -11,32 +11,21 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk"
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P"
-        crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+
+
 
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/main.css" />
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Playfair+Display+SC" rel="stylesheet">
 
 </head>
 
 <body>
-    <div id="header" class="jumbotron jumbotron-fluid">
-        <div class="container" id="header">
-            <h1 id="title" class="display-4">
-                Just a Lil' Bit</h1>
-        </div>
-    </div>
+    <div id = "header"><h1> <i class="fab fa-bitcoin"></i> Just a Lil' Bit</h1>
     <div class="input-group mb-3" id="currency-changer">
         <div class="input-group-prepend">
-            <span class="input-group-text">
                 <div class="dropdown">
-                    <!-- $(".dropdown-menu li a").click(function(){
-            $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
-            $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
-            }); -->
-
                     <select class="currency-selector" name="currencies">
                         <option value="cny">JPY</option>
                         <option value="usd" selected="selected">USD</option>
@@ -45,22 +34,20 @@
                         <option value="gbp">GBP</option>
                         <option value="gbp">CAD</option>
                         <option value="gbp">EUR</option>
-
                     </select>
                 </div>
-            </span>
         </div>
         <input type="number" class="form-control" value="10000" aria-label="Amount (to the nearest dollar)">
         <div class="input-group-append">
             <span class="input-group-text">.00</span>
-            <!-- Enter Function -->
             <button>Submit</button>
+        </div>
         </div>
     </div>
     <div id="pricing-table">
         <table class="table">
-            <thead>
-                <tr id="tableHeader">
+            <thead id="tableHeader">
+                <tr>
                     <!-- Sort Function -->
                     <th scope="col">Market
                         <i class="fas fa-caret-down"></i>
