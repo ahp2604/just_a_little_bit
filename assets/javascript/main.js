@@ -2,6 +2,21 @@ var exchanges = [];
 var priceArray = [];
 var test = [];
 var userInput;
+var exchangeRates;
+var base = "USD";
+var currentCurrency = "USD";
+var currentRate = 1;
+var converted = false;
+var oldRate;
+
+var streamUrl = "https://streamer.cryptocompare.com/";
+var fsym = "BTC";
+var tsym = "USD";
+var currentSubs;
+var currentSubsText = "";
+var dataUrl =
+  "https://min-api.cryptocompare.com/data/subs?fsym=" + fsym + "&tsyms=" + tsym;
+var socket = io(streamUrl);
 
 function generateTable(exchangeNames) {
   for (var i = 0; i < exchangeNames.length; i++) {
@@ -25,14 +40,6 @@ function generateTable(exchangeNames) {
 }
 
 // Code to extract price from streamer
-var streamUrl = "https://streamer.cryptocompare.com/";
-var fsym = "BTC";
-var tsym = "USD";
-var currentSubs;
-var currentSubsText = "";
-var dataUrl =
-  "https://min-api.cryptocompare.com/data/subs?fsym=" + fsym + "&tsyms=" + tsym;
-var socket = io(streamUrl);
 
 $.getJSON(dataUrl, function(data) {
   currentSubs = data["USD"]["TRADES"];
@@ -68,15 +75,6 @@ var transformData = function(data) {
     Quantity: CCC.convertValueToDisplay(coinfsym, incomingTrade["Q"]),
     Total: CCC.convertValueToDisplay(cointsym, incomingTrade["TOTAL"])
   };
-  // console.log(newTrade);
-
-  // if (incomingTrade["F"] & 1) {
-  //   newTrade["Type"] = "SELL";
-  // } else if (incomingTrade["F"] & 2) {
-  //   newTrade["Type"] = "BUY";
-  // } else {
-  //   newTrade["Type"] = "UNKNOWN";
-  // }
 
   displayData(newTrade);
 };
@@ -103,9 +101,9 @@ var displayData = function(dataUnpacked) {
       test[i] = dataUnpacked.Price;
       // console.log(test);
       $("#price-" + exchanges[i]).html(dataUnpacked.Price);
-      var priceParsed = parseFloat(
-        dataUnpacked.Price.replace("$", "").replace(",", "")
-      );
+      var priceParsed =
+        parseFloat(dataUnpacked.Price.replace("$", "").replace(",", "")) *
+        currentRate;
 
       var userSpend = parseFloat($("input").val());
 
@@ -156,3 +154,73 @@ $("button").click(function() {
     $("#available-" + exchanges[i]).html(purchasePower);
   }
 });
+$(".currency-selector").change(function() {
+  currentCurrency = $(".currency-selector option:selected").text();
+  if (!exchangeRates) {
+    $.ajax({
+      type: "GET",
+      url:
+        "https://api.fixer.io/latest?access_key=d779d9b842fb5cbb18a0c9967bf65c8b&base=USD&symbols=JPY,CNY,EUR,GBP,CAD,AUD",
+      data: {},
+      success: function(result) {
+        exchangeRates = result.rates;
+        changeCurrency();
+      },
+      error: function(x, e) {
+        console.log(e);
+      }
+    });
+  } else {
+    changeCurrency();
+  }
+});
+function changeCurrency() {
+  if (currentCurrency === "USD") {
+    oldRate = currentRate;
+    currentRate = 1;
+    console.log(currentRate);
+    updateTable("available");
+  } else {
+    oldRate = currentRate;
+    currentRate = exchangeRates[currentCurrency];
+    console.log(currentRate);
+    updateTable("available");
+  }
+}
+
+function updateTable(selector) {
+  if (oldRate) {
+    for (i = 0; i < exchanges.length; i++) {
+      var oldDivisor = 1 / oldRate;
+      console.log(oldDivisor);
+      var price =
+        parseFloat(
+          $("#price-" + exchanges[i])
+            .text()
+            .replace("$", "")
+            .replace(",", "")
+        ) * oldDivisor;
+      price = price * currentRate;
+      userInput = parseFloat($("input").val());
+      purchasePower = userInput / price;
+      // console.log(price);
+      $("#price-" + exchanges[i]).html(price);
+      $("#available-" + exchanges[i]).html(purchasePower);
+    }
+  } else {
+    for (i = 0; i < exchanges.length; i++) {
+      var price =
+        parseFloat(
+          $("#price-" + exchanges[i])
+            .text()
+            .replace("$", "")
+            .replace(",", "")
+        ) * currentRate;
+      userInput = parseFloat($("input").val());
+      purchasePower = userInput / price;
+      // console.log(price);
+      $("#price-" + exchanges[i]).html(price);
+      $("#available-" + exchanges[i]).html(purchasePower);
+    }
+  }
+}

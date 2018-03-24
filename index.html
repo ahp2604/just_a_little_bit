@@ -37,15 +37,16 @@
             $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
             }); -->
 
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-dollar-sign"></i> USD
-                    </a>
+                    <select class="currency-selector" name="currencies">
+                        <option value="cny">JPY</option>
+                        <option value="usd" selected="selected">USD</option>
+                        <option value="jpy">CNY</option>
+                        <option value="gbp">EUR</option>
+                        <option value="gbp">GBP</option>
+                        <option value="gbp">CAD</option>
+                        <option value="gbp">EUR</option>
 
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#">¥ JPY</a>
-                        <a class="dropdown-item" href="#">€ EUR</a>
-                        <a class="dropdown-item" href="#">¥ CNY</a>
-                    </div>
+                    </select>
                 </div>
             </span>
         </div>
