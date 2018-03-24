@@ -1,40 +1,65 @@
-#tableHeader {
+table thead {
     background-color: rgb(253, 180, 44);
     text-align: center;
     font-weight: bold;
     font-size: 20px;
+    font-family: 'Playfair Display SC', serif;
+
 }
+
+table  th:nth-child(1){
+    border-radius: 20px 0px 0px 0px;
+ }
+ table  th:nth-last-child(1){
+    border-radius: 0px 20px 0px 0px;
+ }
 
 .table {
     width: 90%;
     margin: 5%;
+    background-color: white;
+    text-align: center;
+    border-radius: 20px; 
+
 }
 
 #currency-changer {
+    border-radius: 2%;
     width: 90%;
     margin: 5%;
 }
 
-#header {
+h1 {
     background-color: white;
+    border-bottom: 5px solid lightgrey;
+    height: 100px;
+    line-height: 100px;
+    font-family: 'Playfair Display SC', serif;
+    text-align: center;
+    color:  rgb(253, 180, 44);
+    box-shadow: 50px;
+
 }
 
-#title {
-    text-align: center;
-}
 
 body {
-    background-color: rgb(211, 211, 211);
-    font-family: 'Playfair Display SC', serif;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #e7e7e7;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='32' viewBox='0 0 16 32'%3E%3Cg fill='%23bdbdbd' fill-opacity='0.4'%3E%3Cpath fill-rule='evenodd' d='M0 24h4v2H0v-2zm0 4h6v2H0v-2zm0-8h2v2H0v-2zM0 0h4v2H0V0zm0 4h2v2H0V4zm16 20h-6v2h6v-2zm0 4H8v2h8v-2zm0-8h-4v2h4v-2zm0-20h-6v2h6V0zm0 4h-4v2h4V4zm-2 12h2v2h-2v-2zm0-8h2v2h-2V8zM2 8h10v2H2V8zm0 8h10v2H2v-2zm-2-4h14v2H0v-2zm4-8h6v2H4V4zm0 16h6v2H4v-2zM6 0h2v2H6V0zm0 24h2v2H6v-2z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-.table {
-    background-color: white;
-    text-align: center;
-}
 
 #footer {
-    background-color: grey;
+    background-color: rgb(160, 160, 160);
     text-align: center;
-    height: 10%;
+    height: 50px;
+    line-height: 40px;
+    border-top: 10px solid grey;
+    font-size: 15px;
+    color: rgb(230, 230, 230);
+
+}
+
+button {
+    border-radius: 5px;
 }
