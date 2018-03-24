@@ -100,11 +100,12 @@ var displayData = function(dataUnpacked) {
     if (exchanges[i] === dataUnpacked.Market && dataUnpacked.Flag & 1) {
       test[i] = dataUnpacked.Price;
       // console.log(test);
-      $("#price-" + exchanges[i]).html(dataUnpacked.Price);
       var priceParsed =
         parseFloat(dataUnpacked.Price.replace("$", "").replace(",", "")) *
         currentRate;
+      console.log("Current rate is presently: " + currentRate);
 
+      $("#price-" + exchanges[i]).html(priceParsed);
       var userSpend = parseFloat($("input").val());
 
       purchaseAmount = userSpend / priceParsed;
