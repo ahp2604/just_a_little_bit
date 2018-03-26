@@ -119,11 +119,8 @@ var displayData = function(dataUnpacked) {
         currentRate;
       console.log("Current rate is presently: " + currentRate);
 
-<<<<<<< HEAD
-      $("#price-" + exchanges[i]).html(priceParsed);
-=======
 
->>>>>>> 94468621228068ef5c1d497f20fa30702039112f
+
       $("#price-" + exchanges[i]).html(priceParsed.toFixed(2));
       var userSpend = parseFloat($("input").val());
 
@@ -232,11 +229,7 @@ function updateTable(selector) {
       userInput = parseFloat($("input").val());
       purchasePower = userInput / price;
       // console.log(price);
-<<<<<<< HEAD
-      $("#price-" + exchanges[i]).html(price);
-=======
 
->>>>>>> 94468621228068ef5c1d497f20fa30702039112f
       $("#price-" + exchanges[i]).html(price.toFixed(2));
       $("#available-" + exchanges[i]).html(purchasePower);
     }
@@ -252,11 +245,8 @@ function updateTable(selector) {
       userInput = parseFloat($("input").val());
       purchasePower = userInput / price;
       // console.log(price);
-<<<<<<< HEAD
-      $("#price-" + exchanges[i]).html(price);
-=======
 
->>>>>>> 94468621228068ef5c1d497f20fa30702039112f
+
       $("#price-" + exchanges[i]).html(price.toFixed(2));
       $("#available-" + exchanges[i]).html(purchasePower);
     }
