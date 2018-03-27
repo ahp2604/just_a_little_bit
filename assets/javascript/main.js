@@ -91,36 +91,22 @@ var transformData = function(data) {
 };
 //Added in filter F & 2 to only capture Buying Transaction
 var displayData = function(dataUnpacked) {
-  //test to convert time
-  var start = moment.utc().startOf("day").format;
-  // console.log(start);
-
-  var time = parseInt(dataUnpacked.TimeUnix); //string
-  // console.log(time);
-
-  //test to convert string price to number price
-  var high = dataUnpacked.Price.split("$");
-  // console.log(high);
-  var highInt = parseFloat(high[1].replace("$", "").replace(",", ""));
-  // console.log(typeof highInt); //give a number
-  priceArray.push(highInt);
-  // console.log(priceArray);
-  // console.log(start);
-
-  var time = parseInt(dataUnpacked.TimeUnix); //string
-  // console.log(time);
-
-  //test to convert string price to number price
-  var high = dataUnpacked.Price.split("$");
-  // console.log(high);
-  var highInt = parseFloat(high[1].replace("$", "").replace(",", ""));
-  // console.log(typeof highInt); //give a number
-  priceArray.push(highInt);
+  startDay = moment.utc().startOf('day').format("LLL"); //GETTING THE VERY START OF A CERTAIN DAY
+  console.log(startDay);
+ 
+  var time = parseInt(dataUnpacked.TimeUnix);    //string
+  console.log(time);
+ 
+  var timeConvert = moment.unix(time).format("LLL");
+  console.log(timeConvert);
+ 
+  var sameDay = moment(startDay).diff(timeConvert, 'day');
+  console.log(sameDay);
   // console.log(priceArray);
   ///////////////////////////////////////////////////////////////////////////////////////////
 
   for (var i = 0; i < exchanges.length; i++) {
-    if (exchanges[i] === dataUnpacked.Market && dataUnpacked.Flag & 1) {
+    if ((exchanges[i] === dataUnpacked.Market) && (dataUnpacked.Flag & 1) && (sameDay === 0) ) {
       // $("#price-" + exchanges[i]).html(dataUnpacked.Price);
       test[i] = dataUnpacked.Price;
       // console.log(test);
@@ -139,31 +125,12 @@ var displayData = function(dataUnpacked) {
       // console.log(purchaseAmount);
       $("#available-" + exchanges[i]).html(purchaseAmount.toFixed(6));
 
-      //test to showing the high and low
-      // if(dataUnpacked.Price = high){
-      // pricePopulate.html(dataUnpacked.Price);
-      //   pricePopulate.css("background-color","blue")
-      // }else if(dataUnpacked.Price = low){
-      //   pricePopulate.css("background-color","red")
-      // }
 
-      //test to showing the high and low
-      // if(dataUnpacked.Price = high){
-      // pricePopulate.html(dataUnpacked.Price);
-      //   pricePopulate.css("background-color","blue")
-      // }else if(dataUnpacked.Price = low){
-      //   pricePopulate.css("background-color","red")
-      // }
-
-      //   console.log(
-      //     "Market = " + dataUnpacked.Market + "  price = " + dataUnpacked.Price
-      //   );
-
-      //If F & 4 is passing then show Unknown Transaction
-      //Cexio Market is showing a unsuall low-price for buying. Verified F:2 is true
-    } //else if ((exchanges[i] === dataUnpacked.Market) && (dataUnpacked.Flag === )){
-    //$("#price-" + exchanges[i]).html("Unknown Transaction");
-    //}
+    } 
+    if ((exchanges[i] === dataUnpacked.Market) && ((sameDay !== 0) || ((dataUnpacked.Flag & 4) || ((dataUnpacked.Flag & 2) && (dataUnpacked.Flag &! 1)) ))){
+      $("#available-"+exchanges[i]).parent().remove();
+    
+      }
   }
 
   // $("#row-test").html(
