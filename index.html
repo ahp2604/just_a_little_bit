@@ -11,37 +11,41 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ"
+        crossorigin="anonymous"></script>
 
 
 
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/main.css" />
-    
+
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Playfair+Display+SC" rel="stylesheet">
 
 </head>
 
 <body>
-    <div id = "header"><h1> <i class="fab fa-bitcoin"></i> Just a Lil' Bit</h1>
-    <div class="input-group mb-3" id="currency-changer">
-        <div class="input-group-prepend">
-                <div class="dropdown">
-                    <select class="currency-selector" name="currencies">
-                        <option value="cny">JPY</option>
-                        <option value="usd" selected="selected">USD</option>
-                        <option value="jpy">CNY</option>
-                        <option value="gbp">EUR</option>
-                        <option value="gbp">GBP</option>
-                        <option value="gbp">CAD</option>
-                        <option value="gbp">EUR</option>
-                    </select>
-                </div>
+    <div id="header">
+        <h1>
+            <i class="fab fa-bitcoin"></i> Just a Lil' Bit
+        </h1>
+        <div class="input-group" id="currency-changer">
+            <div id="currency-dropdown">
+                <select class="currency-selector" name="currencies">
+                    <option value="cny">JPY</option>
+                    <option value="usd" selected="selected">USD</option>
+                    <option value="jpy">CNY</option>
+                    <option value="gbp">EUR</option>
+                    <option value="gbp">GBP</option>
+                    <option value="gbp">CAD</option>
+                </select>
+            </div>
+            <input type="number" class="form-control" id="amount-input" value="10000" aria-label="Amount (to the nearest dollar)">
+            <div class="input-group-append">
+                <span class="input-group-text" id="cents">.00</span>
+                <button>Submit</button>
+            </div>
         </div>
-        <input type="number" class="form-control" value="10000" aria-label="Amount (to the nearest dollar)">
-        <div class="input-group-append">
-            <span class="input-group-text">.00</span>
-            <button>Submit</button>
-        </div>
+        <div id="instructions">
+            Enter your desired purchase amount.
         </div>
     </div>
     <div id="pricing-table">
@@ -50,13 +54,10 @@
                 <tr>
                     <!-- Sort Function -->
                     <th scope="col">Market
-                        <i class="fas fa-caret-down"></i>
                     </th>
                     <th scope="col">Price
-                        <i class="fas fa-caret-down"></i>
                     </th>
-                    <th scope="col">Available Amount
-                        <i class="fas fa-caret-down"></i>
+                    <th scope="col">Purchasing Power
                     </th>
                 </tr>
             </thead>
@@ -64,7 +65,7 @@
             </tbody>
         </table>
     </div>
-    <div id="footer">Copyright 2018 Andy Ho, Jared Giplin, Avery Bruner, Carolyn McEvoy </div>
+    <div id="footer">© 2018 Avery Bruner, Andy Ho, Jared Gilpin and Carolyn McEvoy </div>
 
 
 
